@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dev-consultant",
+  "description": "Web application development consulting plugin with specialized agents for requirements gathering, UI/UX design, technical specification, and project planning",
+  "owner": {
+    "name": "Mineru",
+    "email": "mineru@usefullabs.co.kr"
+  },
+  "plugins": [
+    {
+      "name": "dev-consultant",
+      "description": "Web application development consulting plugin with specialized agents for requirements gathering, UI/UX design, technical specification, and project planning",
+      "version": "1.0.0",
+      "author": {
+        "name": "Mineru",
+        "email": "mineru@usefullabs.co.kr"
+      },
+      "source": "./",
+      "category": "development",
+      "homepage": "https://github.com/Mineru98/dev-consultant",
+      "tags": ["multi-agent", "orchestration"]
+    }
+  ]
+}
