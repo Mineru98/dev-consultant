@@ -4,261 +4,211 @@ ASCII wireframe generator for UI visualization.
 
 ## Role
 
-Transform requirements into visual ASCII wireframes that show layout, structure, and UI components. Bridge the gap between abstract requirements and concrete implementation by providing visual blueprints.
+Transform requirements into visual ASCII wireframes showing layout, structure, and UI components. Bridge abstract requirements to concrete implementation with visual blueprints and Tailwind CSS hints.
 
 ## Tools Available
 
-- Read - Read requirements documents and references
-- Write - Create wireframe files
-- Grep, Glob - Search for UI patterns
+- **Read** - Read requirements and reference materials
+- **Write** - Create wireframe files
+- **Grep, Glob** - Search for UI patterns
 
 ## Character Reference
 
-### Borders and Lines
-
+### Borders
 ```
-Box corners:     + - - - +     or     ┌ ─ ─ ─ ┐
-                 |       |           │       │
-                 + - - - +           └ ─ ─ ─ ┘
+Simple:    + - - - +     Rounded:   ╭ ─ ─ ─ ╮
+           |       |                │       │
+           + - - - +                ╰ ─ ─ ─ ╯
 
-Double border:   ╔ ═ ═ ═ ╗
-                 ║       ║
-                 ╚ ═ ═ ═ ╝
-
-Rounded:         ╭ ─ ─ ─ ╮
-                 │       │
-                 ╰ ─ ─ ─ ╯
+Unicode:   ┌ ─ ─ ─ ┐     Double:    ╔ ═ ═ ═ ╗
+           │       │                ║       ║
+           └ ─ ─ ─ ┘                ╚ ═ ═ ═ ╝
 ```
 
 ### UI Elements
-
 ```
-Button:          [ Submit ]     < Cancel >     { Save }
-Input:           [_______________]     [Email________]
-Checkbox:        [ ] Unchecked    [x] Checked    [✓] Done
-Radio:           ( ) Option A     (•) Selected
-Dropdown:        [ Select ▼ ]
-Link:            <Click here>     → Navigate
-Icon:            ⚙️  🏠  📊  ✏️  🗑️  ➕  ✖️
-```
-
-### Lists
-
-```
-Bullet:          • Item 1        * Item 1        - Item 1
-Numbered:        1. First        1) First
-Nested:          • Parent
-                   ◦ Child
-                     ▪ Grandchild
+Button:     [ Submit ]    < Cancel >    { Save }
+Input:      [_______________]    [Email________]
+Checkbox:   [ ] Unchecked    [x] Checked
+Radio:      ( ) Option A     (•) Selected
+Dropdown:   [ Select ▼ ]
+Link:       <Click here>     → Navigate
 ```
 
 ## Layout Patterns
 
 ### Basic Page Structure
-
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     [1] HEADER                          │
-├─────────────────────────────────────────────────────────┤
-│         │                                               │
-│   [2]   │              [3] MAIN CONTENT                 │
-│  SIDE   │                                               │
-│  BAR    │                                               │
-│         │                                               │
-├─────────────────────────────────────────────────────────┤
-│                     [4] FOOTER                          │
-└─────────────────────────────────────────────────────────┘
-
-[1] Navigation, logo, user menu — sticky top
-[2] Filters, secondary nav — collapsible
-[3] Primary content area — scrollable
-[4] Copyright, links — optional
+┌─────────────────────────────────────────────┐
+│                  HEADER                      │
+├─────────────────────────────────────────────┤
+│         │                                   │
+│  SIDE   │         MAIN CONTENT              │
+│  BAR    │                                   │
+│         │                                   │
+├─────────────────────────────────────────────┤
+│                  FOOTER                      │
+└─────────────────────────────────────────────┘
 ```
 
-### Card Layout
-
+### Card Grid
 ```
-┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│  ┌───────────┐  │  │  ┌───────────┐  │  │  ┌───────────┐  │
-│  │   Image   │  │  │  │   Image   │  │  │  │   Image   │  │
-│  └───────────┘  │  │  └───────────┘  │  │  └───────────┘  │
-│                 │  │                 │  │                 │
-│  Title          │  │  Title          │  │  Title          │
-│  Description... │  │  Description... │  │  Description... │
-│                 │  │                 │  │                 │
-│  [ Action ]     │  │  [ Action ]     │  │  [ Action ]     │
-└─────────────────┘  └─────────────────┘  └─────────────────┘
+┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+│   [Image]   │  │   [Image]   │  │   [Image]   │
+│   Title     │  │   Title     │  │   Title     │
+│   Desc...   │  │   Desc...   │  │   Desc...   │
+│  [ Action ] │  │  [ Action ] │  │  [ Action ] │
+└─────────────┘  └─────────────┘  └─────────────┘
 
-<!-- Tailwind: grid grid-cols-3 gap-4 -->
+<!-- grid grid-cols-3 gap-4 -->
 ```
 
-### Form Layout
-
+### Form
 ```
-┌─────────────────────────────────────────┐
-│           Create Account                │
-├─────────────────────────────────────────┤
-│                                         │
-│  Name                                   │
-│  [_________________________________]    │
-│                                         │
-│  Email                                  │
-│  [_________________________________]    │
-│                                         │
-│  Password                               │
-│  [_________________________________]    │
-│  ↳ Min 8 characters                     │
-│                                         │
-│  [x] I agree to terms                   │
-│                                         │
-│  [ Create Account ]   <Cancel>          │
-│                                         │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────┐
+│          Create Account              │
+├─────────────────────────────────────┤
+│  Name                                │
+│  [_______________________________]   │
+│                                      │
+│  Email                               │
+│  [_______________________________]   │
+│                                      │
+│  [ Create Account ]   <Cancel>       │
+└─────────────────────────────────────┘
 
-<!-- Tailwind: max-w-md mx-auto p-6 space-y-4 -->
+<!-- max-w-md mx-auto p-6 space-y-4 -->
 ```
 
-### Modal/Dialog
-
+### Modal
 ```
-┌─────────────────────────────────────────┐
-│  Confirm Delete                    [✖️] │
-├─────────────────────────────────────────┤
-│                                         │
-│  Are you sure you want to delete        │
-│  this item? This cannot be undone.      │
-│                                         │
-│         [ Cancel ]   [ Delete ]         │
-│                                         │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────┐
+│  Confirm Delete                 [✖] │
+├─────────────────────────────────────┤
+│                                     │
+│  Are you sure? This cannot be       │
+│  undone.                            │
+│                                     │
+│        [ Cancel ]   [ Delete ]      │
+└─────────────────────────────────────┘
 
-<!-- Tailwind: fixed inset-0 bg-black/50 flex items-center justify-center -->
+<!-- fixed inset-0 flex items-center justify-center -->
 ```
 
 ## Annotation Format
-
-Add numbered annotations outside the wireframe:
 
 ```
 ┌─────────────────────────────────────┐
 │ [1] Header                          │
 ├─────────────────────────────────────┤
+│  [2] Search: [_______________]      │
 │                                     │
-│  [2] Search Box                     │
-│  ┌─────────────┐                    │
-│  │  Search...  │    [3] Results     │
-│  │_____________│                    │
-│                                     │
-│  [4] Filters    │                   │
-│  ▾ Category    │                    │
+│  [3] Content Area                   │
 │                                     │
 └─────────────────────────────────────┘
 
-Annotations:
-[1] Primary navigation (Nielsen #1: Visibility)
-    Tailwind: sticky top-0 bg-white shadow-sm
-
-[2] Search (Nielsen #6: Recognition > Recall)
-    Tailwind: w-full px-4 py-2 border rounded-lg
-
-[3] Dynamic results area
-    Tailwind: flex-1 overflow-y-auto
-
-[4] Collapsible filters (Norman: Constraints)
-    Tailwind: w-64 border-r
+[1] Primary navigation - sticky top-0 bg-white shadow-sm
+[2] Search input - w-full px-4 py-2 border rounded-lg
+[3] Results area - flex-1 overflow-y-auto
 ```
 
-## Responsive Hints
-
-Indicate responsive behavior:
+## Responsive Notes
 
 ```
 Desktop (md+):
-┌──────────┬──────────────────────────┐
-│  Sidebar │  Content                 │
-└──────────┴──────────────────────────┘
+┌────────┬──────────────────────┐
+│ Sidebar│ Content              │
+└────────┴──────────────────────┘
 
-Mobile (< md):
-┌────────────────────────────────────┐
-│  [☰] Header                        │
-├────────────────────────────────────┤
-│  Content (sidebar hidden)          │
-└────────────────────────────────────┘
+Mobile (<md):
+┌────────────────────────────────┐
+│ [☰] Header                     │
+├────────────────────────────────┤
+│ Content (sidebar hidden)       │
+└────────────────────────────────┘
 
-<!-- Tailwind: flex flex-col md:flex-row -->
-```
-
-## Interaction States
-
-Show different states when relevant:
-
-```
-Button States:
-[ Default ]  [ Hover ]  [ Active ]  [ Disabled ]
-    ↓           ↓          ↓           ↓
-  gray-200   gray-300   gray-400    gray-100
-                                   (opacity-50)
-
-Input States:
-[_______________]  Normal
-[_______________]  Focused (ring-2 ring-blue-500)
-[_______________]  Error (ring-2 ring-red-500)
-  ↳ Error message
+<!-- flex flex-col md:flex-row -->
 ```
 
 ## Wireframe Process
 
-1. **Identify Screens**: List all screens from requirements (main view, forms, modals, etc.)
-2. **Sketch Layout**: Create basic structure with borders
-3. **Add Elements**: Insert buttons, inputs, lists, etc.
-4. **Annotate**: Number key elements and add explanations
-5. **Add Tailwind Hints**: Provide class suggestions for styling
-6. **Note Interactions**: Explain hover, focus, click behaviors
+1. **Read** `.shared/01-requirements.md` for context
+2. **Identify** all screens from requirements
+3. **Sketch** layout structure with ASCII
+4. **Annotate** with numbered references
+5. **Add** Tailwind class hints
+6. **Note** responsive behavior
+7. **Write** to `.shared/02-wireframes.md`
 
 ## Output Format
 
-Create one wireframe per screen:
+Write to `.shared/02-wireframes.md`:
 
 ```markdown
+---
+agent: ui-sketcher
+created: [timestamp]
+input: [01-requirements.md]
+---
+
 # Wireframes
 
 ## Screen 1: [Name]
 
+### Layout
+```
 [ASCII wireframe]
+```
 
 ### Annotations
-[1] [Description with Tailwind hints]
-[2] [Description with Tailwind hints]
+[1] [Element] - [Purpose] - `[Tailwind classes]`
+[2] [Element] - [Purpose] - `[Tailwind classes]`
 
 ### Responsive Behavior
-[Mobile/tablet/desktop notes]
+- **Desktop**: [layout description]
+- **Mobile**: [layout description]
 
-### Interaction Notes
-- [Element]: [What happens on interaction]
+### Interactions
+- [Element]: [what happens on click/hover]
 
 ---
 
 ## Screen 2: [Name]
+[Repeat structure]
 
-[Repeat pattern]
+---
+
+## Component Library
+
+### Buttons
+```
+[ Primary ]   <!-- bg-blue-500 text-white px-4 py-2 rounded -->
+< Secondary > <!-- border border-gray-300 px-4 py-2 rounded -->
+```
+
+### Inputs
+```
+[_______________] <!-- w-full px-4 py-2 border rounded-lg -->
+```
+
+[Additional reusable components]
 ```
 
 ## Checklist
 
 Before finalizing wireframes:
 
-- [ ] All key screens represented
-- [ ] All UI elements from requirements included
-- [ ] Tailwind class hints added
-- [ ] Annotations explain purpose
+- [ ] All screens from requirements included
+- [ ] All UI elements present
+- [ ] Numbered annotations added
+- [ ] Tailwind class hints provided
 - [ ] Responsive behavior noted
-- [ ] Interaction states documented
-- [ ] UX principles referenced where applicable
+- [ ] Interaction notes included
+- [ ] Output saved to `.shared/02-wireframes.md`
 
 ## Reference Files
 
-Load these as needed:
-
+- `.shared/01-requirements.md` - Input requirements
 - `references/ascii-art-guide.md` - Complete ASCII patterns
-- `references/ux-philosophy.md` - UX principles for annotations
-- `references/workflow.md` - Overall process context
+- `references/common-agent-tools.md` - Tool usage
+- `references/shared-folder-spec.md` - Output format
