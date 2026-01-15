@@ -1,48 +1,93 @@
 # Dev Consultant Plugin
 
-모호한 고객 요구사항을 상세한 웹 애플리케이션 명세서로 변환하는 Claude Code 플러그인입니다.
+모호한 고객 요구사항을 상세한 애플리케이션 명세서로 변환하는 Claude Code 플러그인입니다.
 
 ## Overview
 
-**8개의 전문화된 에이전트**가 구조화된 워크플로우를 통해 초기 컨셉부터 QA 리포트까지 포괄적인 문서를 생성합니다.
+**13개의 전문화된 에이전트**와 **4개의 스킬**이 구조화된 워크플로우를 통해 초기 컨셉부터 QA 리포트까지 포괄적인 문서를 생성합니다.
 
-**타겟 기술 스택**: HTML + Tailwind CSS + 바닐라 JavaScript (클라이언트 전용)
+### 지원 플랫폼
+
+| 스킬 | 기술 스택 | 용도 |
+|------|----------|------|
+| `webapp-consultant` | HTML + Tailwind + Vanilla JS | 클라이언트 전용 웹앱 |
+| `tauri-app-consultant` | React + TypeScript + Rust | 크로스플랫폼 데스크톱/모바일 앱 |
+| `mobile-web-consultant` | HTML + Tailwind + PWA | 모바일 친화적 웹앱 |
+| `chrome-extension-consultant` | Manifest V3 + Tailwind | Chrome 확장 프로그램 |
+
+## What's New in v2.0.0
+
+### 새로운 스킬 (3개 추가)
+- **tauri-app-consultant**: Tauri v2 기반 데스크톱/모바일 앱
+- **mobile-web-consultant**: PWA 및 모바일 친화적 웹앱
+- **chrome-extension-consultant**: Chrome Extension (Manifest V3)
+
+### 인터뷰어 모드 분리
+- **Standard Mode**: 빠른 요구사항 수집 (2-3 질문, ~5분)
+- **Hell Interviewer**: 극도로 상세한 요구사항 추출 (20-45분)
+
+### 새로운 에이전트 (5개 추가)
+- `hell-interviewer`: 상세 요구사항 추출
+- `tauri-architect`: Rust 백엔드 + Tauri 아키텍처
+- `mobile-ui-sketcher`: 모바일 우선 와이어프레임
+- `mobile-interaction-designer`: 터치 인터랙션 전문가
+- `extension-architect`: Manifest V3 아키텍처
 
 ## Project Structure
 
 ```
 dev-consultant/
-├── agents/                          # 8개 에이전트
-│   ├── interviewer/AGENT.md         # 요구사항 추출
-│   ├── ui-sketcher/AGENT.md         # ASCII 와이어프레임
-│   ├── ux-spec-writer/AGENT.md      # UX 명세서
-│   ├── client-tech-architect/AGENT.md # 기술 아키텍처
-│   ├── mermaid-designer/AGENT.md    # 플로우 다이어그램
-│   ├── interactive-designer/AGENT.md # 애니메이션 명세
-│   ├── planner/AGENT.md             # 프로젝트 계획
-│   └── browser-qa/AGENT.md          # 브라우저 QA
+├── agents/                              # 13개 에이전트
+│   ├── interviewer/AGENT.md             # 요구사항 추출 (기본 모드)
+│   ├── hell-interviewer/AGENT.md        # 요구사항 추출 (상세 모드) [NEW]
+│   ├── ui-sketcher/AGENT.md             # ASCII 와이어프레임
+│   ├── mobile-ui-sketcher/AGENT.md      # 모바일 와이어프레임 [NEW]
+│   ├── ux-spec-writer/AGENT.md          # UX 명세서
+│   ├── client-tech-architect/AGENT.md   # 웹앱 기술 아키텍처
+│   ├── tauri-architect/AGENT.md         # Tauri 아키텍처 [NEW]
+│   ├── extension-architect/AGENT.md     # 확장 아키텍처 [NEW]
+│   ├── mermaid-designer/AGENT.md        # 플로우 다이어그램
+│   ├── interactive-designer/AGENT.md    # 웹 애니메이션
+│   ├── mobile-interaction-designer/AGENT.md # 터치 인터랙션 [NEW]
+│   ├── planner/AGENT.md                 # 프로젝트 계획
+│   └── browser-qa/AGENT.md              # 브라우저 QA
 ├── skills/
-│   └── webapp-consultant/
-│       ├── SKILL.md                 # 스킬 정의
-│       └── references/              # 레퍼런스 (14개)
+│   ├── webapp-consultant/               # 웹앱 컨설턴트
+│   ├── tauri-app-consultant/            # Tauri 앱 컨설턴트 [NEW]
+│   ├── mobile-web-consultant/           # 모바일 웹 컨설턴트 [NEW]
+│   └── chrome-extension-consultant/     # 확장 프로그램 컨설턴트 [NEW]
 └── .claude-plugin/
     └── plugin.json
 ```
 
-## 8 Specialized Agents
+## 13 Specialized Agents
 
-| # | Agent | Output | Purpose |
-|---|-------|--------|---------|
-| 1 | **Interviewer** | `01-requirements.md` | 모호한 요구사항에서 명확한 요구사항 추출 |
-| 2 | **UI Sketcher** | `02-wireframes.md` | ASCII 와이어프레임 + Tailwind 힌트 |
-| 3 | **UX Spec Writer** | `03-ux-specification.md` | UX 철학 (Norman/Nielsen) 통합 명세 |
-| 4 | **Client Tech Architect** | `04-tech-architecture.md` | 데이터 모델 + Repository 패턴 |
-| 5 | **Mermaid Designer** | `05-flow-diagrams.md` | 사용자 플로우 다이어그램 |
-| 6 | **Interactive Designer** | `06-animations.md` | Tailwind 애니메이션 명세 |
-| 7 | **Planner** | `07-roadmap.md` | MoSCoW/RICE 우선순위 + 로드맵 |
-| 8 | **Browser QA** | `08-qa-report.md` | Chrome 자동화 QA 테스트 |
+### Core Agents (모든 스킬에서 사용)
+
+| Agent | Output | Purpose |
+|-------|--------|---------|
+| **Interviewer** | `01-requirements.md` | 빠른 요구사항 추출 (2-3 질문) |
+| **Hell Interviewer** | `01-requirements-deep.md` | 상세 요구사항 추출 (20-45분) |
+| **UX Spec Writer** | `03-ux-specification.md` | UX 철학 (Norman/Nielsen) 통합 |
+| **Mermaid Designer** | `05-flow-diagrams.md` | 사용자 플로우 다이어그램 |
+| **Planner** | `07-roadmap.md` | MoSCoW/RICE 우선순위 |
+| **Browser QA** | `08-qa-report.md` | Chrome 자동화 QA |
+
+### Platform-Specific Agents
+
+| Agent | Platform | Purpose |
+|-------|----------|---------|
+| **UI Sketcher** | Web | ASCII 와이어프레임 + Tailwind |
+| **Mobile UI Sketcher** | Mobile | 모바일 우선 와이어프레임 |
+| **Client Tech Architect** | Web/PWA | IndexedDB + Repository 패턴 |
+| **Tauri Architect** | Tauri | Rust 백엔드 + SQLite |
+| **Extension Architect** | Chrome | Manifest V3 + Message Passing |
+| **Interactive Designer** | Web | Tailwind 애니메이션 |
+| **Mobile Interaction Designer** | Mobile | 터치 제스처 + 햅틱 |
 
 ## Workflow
+
+모든 스킬은 동일한 8단계 워크플로우를 따릅니다:
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -50,68 +95,29 @@ dev-consultant/
 └───────────────────────────┬────────────────────────────────────┘
                             ↓
 ┌────────────────────────────────────────────────────────────────┐
+│  인터뷰어 모드 선택                                              │
+│  • Standard (2-3 질문, ~5분)                                    │
+│  • Hell Interviewer (상세, 20-45분)                             │
+└───────────────────────────┬────────────────────────────────────┘
+                            ↓
+┌────────────────────────────────────────────────────────────────┐
 │  Phase 1: Discovery (순차)                                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │ Interviewer  │→│ UI Sketcher  │→│ UX Spec Writer│          │
-│  │ (요구사항)    │  │ (와이어프레임) │  │ (UX 명세)     │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│  Interviewer → UI Sketcher → UX Spec Writer                    │
 └───────────────────────────┬────────────────────────────────────┘
                             ↓
 ┌────────────────────────────────────────────────────────────────┐
 │  Phase 2: Specification (병렬)                                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │ Client Tech  │  │   Mermaid    │  │ Interactive  │          │
-│  │  Architect   │  │   Designer   │  │   Designer   │          │
-│  │ (기술 설계)   │  │ (플로우)      │  │ (애니메이션)  │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│  Tech Architect + Mermaid Designer + Interaction Designer      │
 └───────────────────────────┬────────────────────────────────────┘
                             ↓
 ┌────────────────────────────────────────────────────────────────┐
 │  Phase 3: Final (순차)                                          │
-│  ┌──────────────┐  ┌──────────────┐                            │
-│  │   Planner    │→│  Browser QA  │                            │
-│  │ (로드맵)      │  │ (QA 테스트)   │                            │
-│  └──────────────┘  └──────────────┘                            │
+│  Planner → Browser QA                                          │
 └───────────────────────────┬────────────────────────────────────┘
                             ↓
 ┌────────────────────────────────────────────────────────────────┐
 │            최종 출력: .shared/ 폴더에 8개 문서                    │
 └────────────────────────────────────────────────────────────────┘
-```
-
-## .shared Collaboration System
-
-모든 에이전트는 `.shared/` 폴더에 결과물을 저장하여 다음 에이전트에게 전달합니다.
-
-```
-[target-repository]/.shared/
-├── 01-requirements.md        ← Interviewer
-├── 02-wireframes.md          ← UI Sketcher
-├── 03-ux-specification.md    ← UX Spec Writer
-├── 04-tech-architecture.md   ← Client Tech Architect
-├── 05-flow-diagrams.md       ← Mermaid Designer
-├── 06-animations.md          ← Interactive Designer
-├── 07-roadmap.md             ← Planner
-└── 08-qa-report.md           ← Browser QA
-```
-
-### Dependency Graph
-
-```
-01-requirements
-       ↓
-02-wireframes
-       ↓
-03-ux-specification
-       ↓
-    ┌──┼──┐
-    ↓  ↓  ↓
-   04 05 06  (병렬 실행)
-    └──┼──┘
-       ↓
-07-roadmap
-       ↓
-08-qa-report (실행 중인 앱 필요)
 ```
 
 ## Installation
@@ -124,134 +130,143 @@ dev-consultant/
 
 ## Usage
 
-### 1. webapp-consultant 스킬 사용
+### 1. 스킬 선택 및 실행
+
+```bash
+# 웹앱 개발
+/webapp-consultant
+
+# Tauri 데스크톱/모바일 앱
+/tauri-app-consultant
+
+# 모바일 친화적 PWA
+/mobile-web-consultant
+
+# Chrome 확장 프로그램
+/chrome-extension-consultant
+```
+
+### 2. 인터뷰어 모드 선택
+
+스킬 실행 시 인터뷰어 모드를 선택합니다:
 
 ```
-User: "작업 관리 도구가 필요해요"
-
-Claude (webapp-consultant 스킬 자동 실행):
-1. Interviewer - 요구사항 명확화 질문
-2. UI Sketcher - ASCII 와이어프레임 생성
-3. UX Spec Writer - UX 명세서 작성
-4. [병렬] Client Tech Architect + Mermaid Designer + Interactive Designer
-5. Planner - 개발 로드맵 생성
-6. Browser QA - QA 테스트 (구현 후)
-
-Output: .shared/ 폴더에 8개 문서 생성
+"인터뷰어 모드를 선택하세요:"
+• Standard (빠른 요구사항 수집, 2-3 질문, ~5분)
+• Hell Interviewer (상세 탐색, 20-45분)
 ```
 
-### 2. 개별 에이전트 사용
+### 3. 개별 에이전트 사용
 
 ```javascript
+// 기본 인터뷰어
 Task({
   subagent_type: "interviewer",
   prompt: "개인 재무 추적기 요구사항 추출",
   description: "요구사항 수집"
 })
+
+// Hell Interviewer (상세)
+Task({
+  subagent_type: "hell-interviewer",
+  prompt: "기업용 프로젝트 관리 시스템 요구사항",
+  description: "상세 요구사항 수집"
+})
 ```
 
-## When to Use
+## Skill Comparison
 
-### ✅ 사용해야 할 때
-- 고객 요청이 모호하거나 불명확할 때
-- 새 웹 앱을 처음부터 계획할 때
-- 코딩 전 포괄적인 문서가 필요할 때
-- HTML + Tailwind + 바닐라 JS 앱 구축 시
-- 클라이언트 전용 (백엔드 없음) 프로젝트
+| 스킬 | 프론트엔드 | 백엔드 | 저장소 | 특화 |
+|------|-----------|--------|--------|------|
+| webapp | HTML + Tailwind + JS | 없음 | IndexedDB | 클라이언트 전용 |
+| tauri-app | React + TS | Rust | SQLite | 네이티브 성능 |
+| mobile-web | HTML + Tailwind + JS | 없음 | IndexedDB + PWA | 오프라인 지원 |
+| chrome-ext | HTML + Tailwind + JS | Service Worker | chrome.storage | 브라우저 통합 |
 
-### ❌ 사용하지 말아야 할 때
-- 요구사항이 이미 명확할 때
-- 백엔드/서버 사이드 애플리케이션 구축 시
-- React/Vue 등 프레임워크 특화 계획 필요 시
+## .shared Collaboration System
 
-## Tech Stack
+모든 에이전트는 `.shared/` 폴더에 결과물을 저장합니다:
 
-| 계층 | 기술 |
-|------|------|
-| Structure | HTML5 |
-| Styling | Tailwind CSS |
-| Logic | Vanilla JavaScript (ES6+) |
-| Settings | LocalStorage |
-| Data | IndexedDB (via localbase) |
-| Backend | None (client-only) |
+```
+[target-repository]/.shared/
+├── 01-requirements.md        ← Interviewer
+├── 02-wireframes.md          ← UI Sketcher
+├── 03-ux-specification.md    ← UX Spec Writer
+├── 04-tech-architecture.md   ← Tech Architect
+├── 05-flow-diagrams.md       ← Mermaid Designer
+├── 06-animations.md          ← Interaction Designer
+├── 07-roadmap.md             ← Planner
+└── 08-qa-report.md           ← Browser QA
+```
 
-### Constraints
-- 브라우저 스토리지 제한: ~50MB
-- 서버 동기화 없음 (로컬 전용)
-- 클라이언트 사이드 필터링 (SQL 없음)
+## When to Use Each Skill
+
+### webapp-consultant
+✅ 클라이언트 전용 웹앱
+✅ HTML + Tailwind + Vanilla JS
+✅ 백엔드 없는 프로젝트
+❌ 서버 사이드 필요 시
+
+### tauri-app-consultant
+✅ 크로스플랫폼 데스크톱 앱
+✅ 네이티브 성능 필요
+✅ 시스템 통합 (파일, 알림 등)
+❌ 웹 전용 프로젝트
+
+### mobile-web-consultant
+✅ 모바일 우선 PWA
+✅ 오프라인 지원 필요
+✅ 터치 인터랙션 중심
+❌ 데스크톱 우선 프로젝트
+
+### chrome-extension-consultant
+✅ 브라우저 기능 확장
+✅ 웹페이지 수정/향상
+✅ 크로스사이트 기능
+❌ 독립 실행 앱
 
 ## Final Output
 
-8개의 포괄적인 Markdown 문서:
+각 스킬은 8개의 포괄적인 Markdown 문서를 생성합니다:
 
-1. **01-requirements.md** - 문제 정의, 사용자 페르소나, MoSCoW 기능 분류
-2. **02-wireframes.md** - ASCII 와이어프레임 + Tailwind 힌트
-3. **03-ux-specification.md** - 사용자 스토리, Norman/Nielsen UX 분석
-4. **04-tech-architecture.md** - 데이터 모델, Repository 클래스
-5. **05-flow-diagrams.md** - Mermaid.js 사용자 플로우
-6. **06-animations.md** - Tailwind 애니메이션 코드
-7. **07-roadmap.md** - MoSCoW 우선순위, WBS, 마일스톤
-8. **08-qa-report.md** - 테스트 결과, 발견된 이슈
+1. **01-requirements.md** - 문제 정의, 사용자 페르소나, 기능 분류
+2. **02-wireframes.md** - ASCII 와이어프레임 + 스타일 힌트
+3. **03-ux-specification.md** - 사용자 스토리, UX 분석
+4. **04-tech-architecture.md** - 데이터 모델, 아키텍처 설계
+5. **05-flow-diagrams.md** - Mermaid 사용자 플로우
+6. **06-animations.md** - 인터랙션 및 애니메이션 명세
+7. **07-roadmap.md** - MoSCoW 우선순위, 개발 로드맵
+8. **08-qa-report.md** - QA 테스트 결과
 
-**총 분량**: 약 95-124 페이지의 포괄적인 프로젝트 문서
+## References by Skill
 
-## Example
+### webapp-consultant
+| Reference | Description |
+|-----------|-------------|
+| workflow.md | 전체 프로세스 |
+| localbase-guide.md | IndexedDB API |
+| tailwind-animations.md | 애니메이션 패턴 |
 
-### Input
-```
-"작업 관리 도구가 필요해요"
-```
+### tauri-app-consultant
+| Reference | Description |
+|-----------|-------------|
+| tauri-architecture.md | Tauri 패턴 |
+| rust-patterns.md | Rust 베스트 프랙티스 |
+| tauri-commands.md | 커맨드 가이드 |
 
-### Process
-```
-[1] Interviewer
-    Q: "개인용인가요, 팀용인가요?"
-    Q: "카테고리나 마감일이 필요한가요?"
-    → 01-requirements.md
+### mobile-web-consultant
+| Reference | Description |
+|-----------|-------------|
+| mobile-ux-patterns.md | 모바일 UX 패턴 |
+| pwa-guide.md | PWA 구현 가이드 |
+| touch-interactions.md | 터치 제스처 |
 
-[2] UI Sketcher
-    - 작업 목록, 추가 양식, 필터 와이어프레임
-    → 02-wireframes.md
-
-[3] UX Spec Writer
-    - 사용자 스토리, UX 분석
-    → 03-ux-specification.md
-
-[4-6] 병렬 실행
-    - Tech: Task 컬렉션, TaskRepository
-    - Mermaid: CRUD 플로우
-    - Interactive: hover, spinner
-    → 04, 05, 06.md
-
-[7] Planner
-    - Phase 1 (CRUD), Phase 2 (필터), Phase 3 (폴리시)
-    → 07-roadmap.md
-
-[8] Browser QA
-    - 기능, UI, 접근성 테스트
-    → 08-qa-report.md
-```
-
-### Output
-`.shared/` 폴더에 8개의 문서 → 즉시 개발 시작 가능
-
-## References
-
-| Task | Reference File |
-|------|----------------|
-| 전체 프로세스 | `references/workflow.md` |
-| 에이전트 협업 | `references/shared-folder-spec.md` |
-| 공통 도구 | `references/common-agent-tools.md` |
-| 상세 가이드 | `references/skill-detailed-guide.md` |
-| 사용 예제 | `references/skill-usage-examples.md` |
-| 인터뷰 패턴 | `references/interview-patterns.md` |
-| ASCII 가이드 | `references/ascii-art-guide.md` |
-| UX 철학 | `references/ux-philosophy.md` |
-| localbase API | `references/localbase-guide.md` |
-| Mermaid 패턴 | `references/mermaid-patterns.md` |
-| 애니메이션 | `references/tailwind-animations.md` |
-| 계획 방법론 | `references/planning-methods.md` |
-| 기술 스택 | `references/spa-tech-stacks.md` |
+### chrome-extension-consultant
+| Reference | Description |
+|-----------|-------------|
+| manifest-v3-guide.md | MV3 가이드 |
+| extension-architecture.md | 아키텍처 패턴 |
+| chrome-storage-patterns.md | 스토리지 패턴 |
 
 ## Credits
 
@@ -259,6 +274,7 @@ Task({
 - Nielsen, Jakob. "Usability Heuristics"
 - ai-diagrams-toolkit (Mermaid patterns)
 - localbase (IndexedDB wrapper)
+- Tauri (Cross-platform framework)
 
 ## License
 
@@ -266,4 +282,17 @@ GPL-3.0 - See [LICENSE](LICENSE) file
 
 ## Version
 
-Current version: 1.1.0
+Current version: **2.0.0**
+
+### Changelog
+
+#### v2.0.0
+- 새로운 스킬 3개 추가 (tauri-app, mobile-web, chrome-extension)
+- 인터뷰어 모드 분리 (Standard / Hell Interviewer)
+- 새로운 에이전트 5개 추가
+- 플랫폼별 레퍼런스 파일 추가
+
+#### v1.1.0
+- 초기 릴리스
+- webapp-consultant 스킬
+- 8개 에이전트
