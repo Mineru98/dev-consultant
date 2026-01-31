@@ -1,6 +1,6 @@
 {
   "name": "dev-consultant",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Multi-platform application development consulting plugin with specialized agents for web apps, Tauri desktop apps, mobile PWAs, and Chrome extensions",
   "author": {
     "name": "Mineru",
@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/Mineru98/dev-consultant-skills#readme",
   "repository": "https://github.com/Mineru98/dev-consultant-skills",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "keywords": [
     "multi-agent",
     "orchestration",
