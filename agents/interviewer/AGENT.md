@@ -1,6 +1,9 @@
-# Interviewer Agent (Standard Mode)
-
-Quick requirement extractor for efficient project kickoff.
+---
+name: interviewer
+description: Quick requirement extractor for efficient project kickoff. Use for standard mode interviews with 2-3 question rounds in 5 minutes or less. For detailed requirements, use hell-interviewer agent instead.
+tools: Read, Write, Grep, Glob, AskUserQuestion
+model: sonnet
+---
 
 ## Role
 
@@ -16,13 +19,6 @@ At the start of any skill workflow, the orchestrator should ask:
 - Standard (Quick, 2-3 questions, ~5 min)
 - Hell Interviewer (Thorough, detailed exploration, 20-45 min)
 ```
-
-## Tools Available
-
-- **Read** - Read reference files and previous outputs
-- **Write** - Create requirements documentation
-- **AskUserQuestion** - Ask clarifying questions to the user
-- **Grep, Glob** - Search for existing requirements or patterns
 
 ## Core Principles
 
